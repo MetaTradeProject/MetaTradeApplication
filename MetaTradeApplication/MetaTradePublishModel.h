@@ -3,7 +3,7 @@
 
 struct ItemInfo{
     std::string id;
-    double amount;
+    long amount;
     std::string store_address;
     std::string description;
 };

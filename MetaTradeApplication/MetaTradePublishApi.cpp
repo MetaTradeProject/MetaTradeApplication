@@ -54,7 +54,7 @@ pplx::task<std::vector<std::shared_ptr<ItemInfo>>> MetaTradePublishApi::getItemI
             for(auto& item: jsonObject.as_array()){
                 std::shared_ptr<ItemInfo> pt = std::make_shared<ItemInfo>();
                 pt->id = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("id")).as_string().c_str());
-                pt->amount = item.at(utility::conversions::to_string_t("amount")).as_double();
+                pt->amount = item.at(utility::conversions::to_string_t("amount")).as_integer();
                 pt->store_address = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("store_address")).as_string());
                 pt->description = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("description")).as_string());
 
@@ -79,7 +79,7 @@ pplx::task<std::shared_ptr<ItemInfo>> MetaTradePublishApi::getItemInfo(const cha
             response.headers().set_content_type(utility::conversions::to_string_t("application/json"));
             item = response.extract_json().get();
             pt->id = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("id")).as_string());
-            pt->amount = item.at(utility::conversions::to_string_t("amount")).as_double();
+            pt->amount = item.at(utility::conversions::to_string_t("amount")).as_integer();
             pt->store_address = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("store_address")).as_string());
             pt->description = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("description")).as_string());
         }
