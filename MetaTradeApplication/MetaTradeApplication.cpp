@@ -94,8 +94,7 @@ void MetaTradeApplication::ExportConfig(char* pky){
 		}
 
 		pky = new char[65];
-		strncpy(pky, ss.str().c_str(), 64);
-		pky[64] = '\0';
+		strcpy_s(pky, 65, ss.str().c_str());
 	}
 	else {
 		pky = nullptr;

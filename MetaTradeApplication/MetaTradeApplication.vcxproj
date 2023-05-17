@@ -72,6 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>F:\Visual Studio Projects\MetaTradeApplication\MetaTradeApplication\include;$(IncludePath)</IncludePath>
+    <LibraryPath>F:\Visual Studio Projects\MetaTradeApplication\MetaTradeApplication\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -111,6 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>F:\Visual Studio Projects\MetaTradeApplication\MetaTradeApplication\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -130,10 +132,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="MetaTradeApplication.h" />
+    <ClInclude Include="MetaTradePublishApi.h" />
+    <ClInclude Include="MetaTradePublishModel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MetaTradeApplication.cpp" />
+    <ClCompile Include="demo.cpp" />
+    <ClCompile Include="MetaTradePublishApi.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

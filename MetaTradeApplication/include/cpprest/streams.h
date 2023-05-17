@@ -542,7 +542,7 @@ private:
     static pplx::task<T> _parse(streams::streambuf<CharType>, std::false_type, std::true_type)
     {
 #ifdef _WIN32
-        static_assert(false, "type is not supported for extraction from a stream");
+        //static_assert(false, "type is not supported for extraction from a stream");
 #else
         throw std::runtime_error("type is not supported for extraction from a stream");
 #endif
