@@ -74,6 +74,10 @@
     <IncludePath>F:\Visual Studio Projects\MetaTradeApplication\MetaTradeApplication\include;$(IncludePath)</IncludePath>
     <LibraryPath>F:\Visual Studio Projects\MetaTradeApplication\MetaTradeApplication\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LibraryPath>F:\Visual Studio Projects\MetaTradeApplication\MetaTradeApplication\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>F:\Visual Studio Projects\MetaTradeApplication\MetaTradeApplication\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -113,6 +117,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>F:\Visual Studio Projects\MetaTradeApplication\MetaTradeApplication\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>leveldb_debug.lib;libMetaTradeNode_d.lib;cpprest141_2_10d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -129,14 +134,18 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>leveldb.lib;libMetaTradeNode_d.lib;cpprest141_2_10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>F:\Visual Studio Projects\MetaTradeApplication\MetaTradeApplication\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="MetaTradeApplication.h" />
     <ClInclude Include="MetaTradePublishApi.h" />
     <ClInclude Include="MetaTradePublishModel.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="demo.cpp" />
+    <ClCompile Include="MetaTradeApplication.cpp" />
     <ClCompile Include="MetaTradePublishApi.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

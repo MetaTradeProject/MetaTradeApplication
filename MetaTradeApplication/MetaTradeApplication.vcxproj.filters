@@ -21,12 +21,18 @@
     <ClInclude Include="MetaTradePublishApi.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MetaTradeApplication.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="demo.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="MetaTradePublishApi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MetaTradeApplication.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

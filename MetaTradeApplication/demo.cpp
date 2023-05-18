@@ -1,13 +1,14 @@
 #include "MetaTradePublishApi.h"
+#include "MetaTradeApplication.h"
 
 int main() {
-	//MetaTradeApplication application;
-	//if (!application.Check_n_ReadConfig()) {
-	//	MetaTradeApplication::RegisterNode();
-	//	application.Check_n_ReadConfig();
-	//}
-	////application.Init();
-	MetaTradePublishApi myapi(U("http://127.0.0.1:7286/"));
+	MetaTradeApplication application;
+	if (!application.ReadConfig()) {
+		application.CreateConfigByRandom();
+	}
+	application.Init();
+	application.Run();
+	/*MetaTradePublishApi myapi(U("http://127.0.0.1:7286/"));
 
 	myapi.getStoreInfoList()
 	.then([](std::vector<std::shared_ptr<StoreInfo>> res) {
@@ -26,6 +27,6 @@ int main() {
 		for (auto& info : res) {
 			std::cout << info->id << info->amount << info->description << std::endl;
 		}
-	}).wait();
+	}).wait();*/
 	return 0;
 }

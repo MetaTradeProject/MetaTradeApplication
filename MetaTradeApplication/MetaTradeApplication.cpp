@@ -8,25 +8,10 @@ unsigned char magic_numbers[32]{
 	0x83, 0x53, 0xc5, 0x5f, 0x46, 0xa1, 0x07, 0xed
 };
 
-unsigned char MetaTradeApplication::hex2byte(char c)
-{
-	if (c >= '0' && c <= '9') {
-		return c - '0';
-	}
-	else if (c >= 'a' && c <= 'f') {
-		return c - 'a' + 10;
-	}
-	else if (c >= 'A' && c <= 'F') {
-		return c - 'A' + 10;
-	}
-	return 0;
-}
-
-bool MetaTradeApplication::ReadConfig()
-{
+bool MetaTradeApplication::ReadConfig() {
 	std::ifstream is(pk_path);
 	if (is.good()) {
-		unsigned char encoded[32];
+		unsigned char encoded[32]{};
 		is.read((char*)encoded, 32);
 
 		for (size_t i = 0; i < 32; i++) {
@@ -41,11 +26,49 @@ bool MetaTradeApplication::ReadConfig()
 		}
 
 		this->private_key = ss.str();
+		is.close();
 		return true;
 	}
 	else {
+		is.close();
 		return false;
 	}
+}
+
+void MetaTradeApplication::Init(bool enableMining) {
+	if (this->private_key.size() != 64) {
+		std::cerr << "Private Key not set...\n";
+		return;
+	}
+	char* public_key_str;
+	char* address_str;
+	CryptoUtils::GeneratePublic(this->private_key.c_str(), public_key_str, address_str);
+	this->public_key = public_key_str;
+	this->wallet_address = address_str;
+
+	// node
+	strcpy_s(_cfg.address, 35, this->wallet_address.c_str());
+	strcpy_s(_cfg.prikey, 65, this->private_key.c_str());
+	strcpy_s(_cfg.pubkey, 67, this->public_key.c_str());
+	_cfg.mining = enableMining;
+	this->_node = std::make_unique<metatradenode::MetaTradeNode>(_cfg);
+	this->_node->init();
+}
+
+void MetaTradeApplication::ReloadNode(){
+	this->_node->reload();
+}
+
+void MetaTradeApplication::Run(bool sync){
+	this->_node->run(sync);
+}
+
+long MetaTradeApplication::QueryAmount(const char* address, const char* item_id){
+	return this->_node->queryAmount(address, item_id);
+}
+
+void MetaTradeApplication::SubmitTrade(const char* receiver, const char* item_id, long amount){
+	this->_node->submitTrade(receiver, item_id, amount);
 }
 
 void MetaTradeApplication::CreateConfigByStr(const char* pky){
@@ -74,6 +97,34 @@ void MetaTradeApplication::CreateConfigByStr(const char* pky){
 	}
 
 	os.write((char*)buffer, 32);
+	os.close();
+}
+
+void MetaTradeApplication::CreateConfigByRandom() {
+	std::ofstream os(pk_path);
+	if (os.good()) {
+		std::cerr << "pky existes...\n";
+		return;
+	}
+
+	//Generate new private key and write file;
+	unsigned char pky[32]{ 0 };
+
+	//Random
+#if defined(_WIN32)
+	BCryptGenRandom(0, pky, 32, BCRYPT_USE_SYSTEM_PREFERRED_RNG);
+#elif defined(__linux__) || defined(__FreeBSD__)
+	getrandom(pky, 32, 0);
+#elif defined(__APPLE__) || defined(__OpenBSD__)
+	getentropy(pky, 32);
+#endif
+
+	for (size_t i = 0; i < 32; i++) {
+		pky[i] = (pky[i] ^ magic_numbers[i]);
+	}
+
+	os.write((char*)pky, 32);
+	os.close();
 }
 
 void MetaTradeApplication::ExportConfig(char* pky){
@@ -99,56 +150,19 @@ void MetaTradeApplication::ExportConfig(char* pky){
 	else {
 		pky = nullptr;
 	}
+	is.close();
 }
 
-void MetaTradeApplication::CreateConfigByRandom() {
-	std::ofstream os(pk_path);
-	if (os.good()) {
-		std::cerr << "pky existes...\n";
-		return;
+unsigned char MetaTradeApplication::hex2byte(char c)
+{
+	if (c >= '0' && c <= '9') {
+		return c - '0';
 	}
-
-	//Generate new private key and write file;
-	unsigned char pky[32]{ 0 };
-
-	//Random
-#if defined(_WIN32)
-	BCryptGenRandom(0, pky, 32, BCRYPT_USE_SYSTEM_PREFERRED_RNG);
-#elif defined(__linux__) || defined(__FreeBSD__)
-	getrandom(pky, 32, 0);
-#elif defined(__APPLE__) || defined(__OpenBSD__)
-	getentropy(pky, 32);
-#endif
-
-	for (size_t i = 0; i < 32; i++) {
-		pky[i] = (pky[i] ^ magic_numbers[i]);
+	else if (c >= 'a' && c <= 'f') {
+		return c - 'a' + 10;
 	}
-	
-	os.write((char*)pky, 32);
-}
-
-void MetaTradeApplication::Init() {
-	if (this->private_key.size() != 64) {
-		std::cerr << "Private Key not set...\n";
-		return;
+	else if (c >= 'A' && c <= 'F') {
+		return c - 'A' + 10;
 	}
-	char* public_key_str;
-	char* address_str;
-	CryptoUtils::GeneratePublic(this->private_key.c_str(), public_key_str, address_str);
-	this->public_key = public_key_str;
-	this->wallet_address = address_str;
-	_node_client_pt = new metatradenode::MetaTradeClient(wallet_address.c_str());
-	_node_service_pt = new BlockChainImpl();
-	_node_client_pt->RegisterService(_node_service_pt);
-	_node_service_pt->RegisterClient(_node_client_pt);
-}
-
-MetaTradeApplication::~MetaTradeApplication() {
-	if (_node_client_pt != nullptr) {
-		_node_client_pt->Disconnect();
-		delete _node_client_pt;
-		if (_node_service_pt != nullptr) {
-			delete _node_service_pt;
-		}
-	}
+	return 0;
 }

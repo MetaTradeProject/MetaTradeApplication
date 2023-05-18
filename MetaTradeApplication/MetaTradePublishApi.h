@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 #include "MetaTradePublishModel.h"
-#pragma comment(lib , "cpprest141_2_10d.lib")
 
 class MetaTradePublishApi {
 private:
