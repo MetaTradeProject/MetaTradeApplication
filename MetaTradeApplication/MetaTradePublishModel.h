@@ -13,3 +13,7 @@ struct StoreInfo{
     char id[10];
     char description[64];
 };
+
+struct SimpleTradeResponse {
+    std::string res;
+};

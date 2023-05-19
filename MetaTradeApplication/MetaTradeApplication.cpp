@@ -133,6 +133,17 @@ void MetaTradeApplication::SubmitTrade(const char* receiver, const char* item_id
 	this->_node->submitTrade(receiver, item_id, amount);
 }
 
+bool MetaTradeApplication::SubmitFakeTrade(const char* store_address, const char* receiver_address, const char* item_id, long long amount){
+	bool res = true;
+	this->_api->submitFakeTrade(store_address, receiver_address, item_id, amount)
+	.then([&](web::http::http_response response) {
+		if (response.status_code() == web::http::status_codes::NotFound) {
+			res = false;
+		}
+	}).wait();
+	return res;
+}
+
 void MetaTradeApplication::CreateConfigByStr(const char* pky){
 	std::ofstream os(pk_path);
 	if (os.good()) {

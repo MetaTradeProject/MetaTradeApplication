@@ -1,4 +1,5 @@
 #include "MetaTradePublishApi.h"
+#include <cpprest/json.h>
 
 pplx::task<std::vector<std::shared_ptr<StoreInfo>>> MetaTradePublishApi::getStoreInfoList(){
     web::http::uri_builder builder(U("/meta-trade/stores"));
@@ -85,4 +86,17 @@ pplx::task<std::shared_ptr<ItemInfo>> MetaTradePublishApi::getItemInfo(const cha
         }
         return pt;
     });
+}
+
+pplx::task<web::http::http_response> MetaTradePublishApi::submitFakeTrade(const char* store_address, const char* receiver_address, const char* item_id, long long amount){
+    web::http::http_request request;
+    request.set_method(utility::conversions::to_string_t("POST"));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id)));
+    request.set_request_uri(builder.to_uri());
+    web::json::value simpleRequest;
+    simpleRequest[L"receiverAddress"] = web::json::value::string(utility::conversions::to_string_t(receiver_address));
+    simpleRequest[L"amount"] = web::json::value::number(amount);
+    request.set_body(simpleRequest);
+
+    return this->_client.request(request);
 }

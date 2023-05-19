@@ -32,6 +32,7 @@ public:
 	void QueryStoreInfo(StoreInfo* store_info, const char* address);
 	void QueryItemInfo(ItemInfo* item_info, const char* address, const char* item_id);
 	void SubmitTrade(const char* receiver, const char* item_id, long amount);
+	bool SubmitFakeTrade(const char* store_address, const char* receiver_address, const char* item_id, long long amount);
 
 	
 	static void CreateConfigByStr(const char* pky);

@@ -13,4 +13,5 @@ public:
     pplx::task<std::shared_ptr<StoreInfo>> getStoreInfo(const char* address);
     pplx::task<std::vector<std::shared_ptr<ItemInfo>>> getItemInfoList(const char* address);
     pplx::task<std::shared_ptr<ItemInfo>> getItemInfo(const char* address, const char* item_id);
+    pplx::task<web::http::http_response> submitFakeTrade(const char* store_address, const char* receiver_address, const char* item_id, long long amount);
 };
