@@ -23,12 +23,16 @@ public:
 	void Init(bool enableMining = true);
 	void ReloadNode();
 	void Run(bool sync = true);
+	
 	long long QueryAmount(const char* address, const char* item_id);
 	long long QueryTransitAmount(const char* address, const char* item_id);
+
 	void QueryStoreInfoList(StoreInfo** store_list, uint64_t* sz);
+	void QueryItemInfoList(ItemInfo** item_list, uint64_t* sz, const char* address);
+
 	void QueryStoreInfo(StoreInfo* store_info, const char* address);
-	void QueryItemInfoList(ItemInfo** item_list, const char* address);
 	void QueryItemInfo(ItemInfo* item_info, const char* address, const char* item_id);
+
 	void SubmitTrade(const char* receiver, const char* item_id, long amount);
 
 	
