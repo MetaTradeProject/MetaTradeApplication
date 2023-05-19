@@ -18,7 +18,7 @@ namespace metatradenode {
 		bool mining;
 	};
 
-	class __declspec(dllexport) MetaTradeNode {
+	class __declspec(dllexport) sMetaTradeNode {
 	private:
 		metatradenode::nodeconfig _config;
 		metatradenode::MetaTradeClient* _client{ nullptr };
@@ -36,7 +36,9 @@ namespace metatradenode {
 		void reload();
 		void run(bool sync = true);
 		long long queryAmount(const char* address, const char* item_id);
+		long long queryTransitAmount(const char* address, const char* item_id);
 		void submitTrade(const char* receiver, const char* item_id, long long amount);
 	};
+
 }
 

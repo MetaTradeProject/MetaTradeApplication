@@ -63,8 +63,12 @@ void MetaTradeApplication::Run(bool sync){
 	this->_node->run(sync);
 }
 
-long MetaTradeApplication::QueryAmount(const char* address, const char* item_id){
+long long MetaTradeApplication::QueryAmount(const char* address, const char* item_id){
 	return this->_node->queryAmount(address, item_id);
+}
+
+long long MetaTradeApplication::QueryTransitAmount(const char* address, const char* item_id){
+	return this->_node->queryTransitAmount(address, item_id);
 }
 
 void MetaTradeApplication::SubmitTrade(const char* receiver, const char* item_id, long amount){

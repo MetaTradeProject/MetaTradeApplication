@@ -12,9 +12,9 @@ pplx::task<std::vector<std::shared_ptr<StoreInfo>>> MetaTradePublishApi::getStor
             jsonObject = response.extract_json().get();     
             for(auto& store_item: jsonObject.as_array()){
                 std::shared_ptr<StoreInfo> pt = std::make_shared<StoreInfo>();
-                pt->address = utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("address")).as_string());
-                pt->id = utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("id")).as_string());
-                pt->description = utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("description")).as_string());
+                strcpy_s(pt->address, 35, utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("address")).as_string()).c_str());
+                strcpy_s(pt->id, 10, utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("id")).as_string()).c_str());
+                strcpy_s(pt->description, 64, utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("description")).as_string()).c_str());
 
                 res.push_back(pt);
             }
@@ -33,9 +33,9 @@ pplx::task<std::shared_ptr<StoreInfo>> MetaTradePublishApi::getStoreInfo(const c
         if(response.status_code() == web::http::status_codes::OK){
             response.headers().set_content_type(utility::conversions::to_string_t("application/json"));
             store_item = response.extract_json().get();     
-            pt->address = utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("address")).as_string());
-            pt->id = utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("id")).as_string());
-            pt->description = utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("description")).as_string());
+            strcpy_s(pt->address, 35, utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("address")).as_string()).c_str());
+            strcpy_s(pt->id, 10, utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("id")).as_string()).c_str());
+            strcpy_s(pt->description, 64, utility::conversions::to_utf8string(store_item.at(utility::conversions::to_string_t("description")).as_string()).c_str());
         }
         return pt;
     });
@@ -53,10 +53,10 @@ pplx::task<std::vector<std::shared_ptr<ItemInfo>>> MetaTradePublishApi::getItemI
             jsonObject = response.extract_json().get();     
             for(auto& item: jsonObject.as_array()){
                 std::shared_ptr<ItemInfo> pt = std::make_shared<ItemInfo>();
-                pt->id = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("id")).as_string().c_str());
+                strcpy_s(pt->id, 10, utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("id")).as_string().c_str()).c_str());
                 pt->amount = item.at(utility::conversions::to_string_t("amount")).as_integer();
-                pt->store_address = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("store_address")).as_string());
-                pt->description = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("description")).as_string());
+                strcpy_s(pt->store_address, 35, utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("store_address")).as_string().c_str()).c_str());
+                strcpy_s(pt->description, 64, utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("description")).as_string()).c_str());
 
                 res.push_back(pt);
             }
@@ -78,10 +78,10 @@ pplx::task<std::shared_ptr<ItemInfo>> MetaTradePublishApi::getItemInfo(const cha
         if (response.status_code() == web::http::status_codes::OK) {
             response.headers().set_content_type(utility::conversions::to_string_t("application/json"));
             item = response.extract_json().get();
-            pt->id = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("id")).as_string());
+            strcpy_s(pt->id, 10, utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("id")).as_string().c_str()).c_str());
             pt->amount = item.at(utility::conversions::to_string_t("amount")).as_integer();
-            pt->store_address = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("store_address")).as_string());
-            pt->description = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("description")).as_string());
+            strcpy_s(pt->store_address, 35, utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("store_address")).as_string().c_str()).c_str());
+            strcpy_s(pt->description, 64, utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("description")).as_string()).c_str());
         }
         return pt;
     });

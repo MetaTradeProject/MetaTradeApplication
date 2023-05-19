@@ -20,10 +20,11 @@ public:
 	void Init(bool enableMining = true);
 	void ReloadNode();
 	void Run(bool sync = true);
-	long QueryAmount(const char* address, const char* item_id);
+	long long QueryAmount(const char* address, const char* item_id);
+	long long QueryTransitAmount(const char* address, const char* item_id);
 	void SubmitTrade(const char* receiver, const char* item_id, long amount);
 
-
+	
 	static void CreateConfigByStr(const char* pky);
 	static void ExportConfig(char* pky);
 	static void CreateConfigByRandom();

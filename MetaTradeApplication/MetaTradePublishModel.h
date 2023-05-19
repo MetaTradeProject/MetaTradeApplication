@@ -2,14 +2,14 @@
 #include <string>
 
 struct ItemInfo{
-    std::string id;
-    long amount;
-    std::string store_address;
-    std::string description;
+    char id[10];
+    long long amount;
+    char store_address[35];
+    char description[64];
 };
 
 struct StoreInfo{
-    std::string address;
-    std::string id;
-    std::string description;
+    char address[35];
+    char id[10];
+    char description[64];
 };
