@@ -75,6 +75,10 @@ long long MetaTradeApplication::QueryTransitAmount(const char* address, const ch
 	return this->_node->queryTransitAmount(address, item_id);
 }
 
+void MetaTradeApplication::QueryBills(const char* address, metatradenode::Bill** bills, uint64_t* sz){
+	this->_node->queryBills(address, bills, sz);
+}
+
 void MetaTradeApplication::QueryStoreInfoList(StoreInfo** store_list, uint64_t* sz){
 	_api->getStoreInfoList()
 	.then([&](std::vector<std::shared_ptr<StoreInfo>> infos){
