@@ -1,5 +1,7 @@
 #pragma once
 #include <MetaTradeNode/MetaTradeNode.h>
+#include "MetaTradePublishModel.h"
+#include "MetaTradePublishApi.h"
 #include <string>
 
 class MetaTradeApplication
@@ -10,6 +12,7 @@ private:
 	std::string wallet_address{};
 	metatradenode::nodeconfig _cfg{};
 	std::unique_ptr<metatradenode::MetaTradeNode> _node;
+	std::unique_ptr<MetaTradePublishApi> _api{}
 	static unsigned char hex2byte(char c);
 public:
 	MetaTradeApplication() = default;
