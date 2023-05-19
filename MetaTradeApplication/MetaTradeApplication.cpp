@@ -75,6 +75,56 @@ long long MetaTradeApplication::QueryTransitAmount(const char* address, const ch
 	return this->_node->queryTransitAmount(address, item_id);
 }
 
+void MetaTradeApplication::QueryStoreInfoList(StoreInfo** store_list, uint64_t* sz){
+	_api->getStoreInfoList()
+	.then([&](std::vector<std::shared_ptr<StoreInfo>> infos){
+		sz = infos.size();
+		store_list = new StoreInfo* [sz];
+		uint64_t idx = 0;
+		for(auto& info: infos){
+			store_list[idx] = new StoreInfo();
+			strcpy_s(store_list[idx]->id, 10, info->id);
+			strcpy_s(store_list[idx]->address, 35, info->address);
+			strcpy_s(store_list[idx++]->description, 64, info->description);
+		}
+	}).wait();
+}
+
+void MetaTradeApplication::QueryStoreInfo(StoreInfo* store_info, const char* address){
+	_api->getStoreInfo(address)
+	.then([&](std::shared_ptr<StoreInfo> store){
+		strcpy_s(store_info->id, 10, store->id);
+		strcpy_s(store_info->address, 35, store->address);
+		strcpy_s(store_info->description, 64, store->description);
+	}).wait();
+}
+
+void MetaTradeApplication::QueryItemInfoList(ItemInfo** item_list, uint64_t* sz, const char* address){
+	_api->getItemInfoList(address)
+	.then([&](std::vector<std::shared_ptr<ItemInfo>> infos){
+		sz = infos.size();
+		item_list = new ItemInfo* [sz];
+		uint64_t idx = 0;
+		for(auto& info: infos){
+			item_list[idx] = new ItemInfo();
+			strcpy_s(iitem_list[idx]->id, 10, info->id);
+			item_list[idx]->amount = info->amount;
+			strcpy_s(item_list[idx]->store_address, 35, info->store_address);
+			strcpy_s(item_list[idx++]->description, 64, info->description);
+		}
+	}).wait();
+}
+
+void MetaTradeApplication::QueryItemInfo(ItemInfo* item_info, const char* address, const char* item_id){
+	_api->getItemInfo(address, item_id)
+	.then([&](std::shared_ptr<ItemInfo> item){
+		strcpy_s(item_info->id, 10, item->id);
+		item_info->amount = item->amount;
+		strcpy_s(item_info->store_address, 35, item->store_address);
+		strcpy_s(item_info->description, 64, item->description);
+	}).wait();
+}
+
 void MetaTradeApplication::SubmitTrade(const char* receiver, const char* item_id, long amount){
 	this->_node->submitTrade(receiver, item_id, amount);
 }
