@@ -1,6 +1,7 @@
 #include "MetaTradeApplication.h"
 
 constexpr auto pk_path = "./metatrade.pky";
+constexpr auto api_path = U("http://127.0.0.1:7286/");
 unsigned char magic_numbers[32]{
 	0xd3, 0xef, 0xdc, 0x3c, 0x01, 0xa2, 0x5d, 0xc2,
 	0xb3, 0x89, 0x73, 0x50, 0xd4, 0x6d, 0xee, 0x69,
@@ -53,6 +54,9 @@ void MetaTradeApplication::Init(bool enableMining) {
 	_cfg.mining = enableMining;
 	this->_node = std::make_unique<metatradenode::MetaTradeNode>(_cfg);
 	this->_node->init();
+
+	//api
+	this->_api = std::make_unique<MetaTradePublishApi>(api_path);
 }
 
 void MetaTradeApplication::ReloadNode(){
