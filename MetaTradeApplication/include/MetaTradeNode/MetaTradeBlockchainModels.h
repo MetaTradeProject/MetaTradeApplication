@@ -15,6 +15,15 @@ namespace metatradenode {
 
 	};
 
+	struct __declspec(dllexport) Bill {
+		char sender[35];
+		char receiver[35];
+		char id[10];
+		long long amount;
+		long long commission;
+		long long timestamp;
+	};
+
 	struct RawBlock {
 		std::vector<Trade> block_body;
 		int proof_level;
