@@ -104,7 +104,7 @@ public:
 	/// <param name='receiver'>接收方的钱包地址</param>
 	/// <param name='item_id'>交易的物品id</param>
 	/// <param name='amount'>交易的数量</param>
-	void SubmitTrade(const char* receiver, const char* item_id, long amount);
+	void SubmitTrade(const char* receiver, const char* item_id, long long amount);
 
 	/// <summary>
 	/// 客户端逻辑提交一条FakeTrade信息（用户为Receiver方），无Commission

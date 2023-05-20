@@ -129,7 +129,7 @@ void MetaTradeApplication::QueryItemInfo(ItemInfo* item_info, const char* addres
 	}).wait();
 }
 
-void MetaTradeApplication::SubmitTrade(const char* receiver, const char* item_id, long amount){
+void MetaTradeApplication::SubmitTrade(const char* receiver, const char* item_id, long long amount){
 	this->_node->submitTrade(receiver, item_id, amount);
 }
 
