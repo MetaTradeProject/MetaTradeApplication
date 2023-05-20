@@ -14,7 +14,7 @@ public:
     pplx::task<std::vector<std::shared_ptr<ItemInfo>>> getItemInfoList(const char* address);
     pplx::task<std::shared_ptr<ItemInfo>> getItemInfo(const char* address, const char* item_id);
     pplx::task<web::http::http_response> submitFakeTrade(const char* store_address, const char* receiver_address, const char* item_id, long long amount);
-    pplx::task<std::string> submitCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount);
-    pplx::task<web::http::status_code> deleteCronTrade(const char* store_address, const char* item_id, const char* key);
-    pplx::task<web::http::status_code> putCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount, const char* key);
+    pplx::task<web::http::http_response> submitCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount);
+    pplx::task<web::http::http_response> deleteCronTrade(const char* store_address, const char* item_id, const char* key);
+    pplx::task<web::http::http_response> putCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount, const char* key);
 };

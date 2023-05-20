@@ -146,9 +146,17 @@ bool MetaTradeApplication::SubmitFakeTrade(const char* store_address, const char
 
 void MetaTradeApplication::SubmitCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount, char* key){
 	this->_api->submitFakeTrade(store_address, receiver_address, item_id, amount)
-	.then([&](std::string key_str) {
-		key = new char[key_str.size() + 1];
-		strcpy_s(key, key_str.size() + 1, key_str.c_str());
+	.then([&](web::http::http_response response) {
+		if (response.status_code() == web::http::status_codes::OK) {
+			web::json::value item = response.extract_json().get();
+			response.headers().set_content_type(utility::conversions::to_string_t("application/json"));
+			std::string key_str = utility::conversions::to_utf8string(item.at(utility::conversions::to_string_t("id")).as_string().c_str());
+			key = new char[key_str.size() + 1];
+			strcpy_s(key, key_str.size() + 1, key_str.c_str());
+		}
+		else {
+			key = nullptr;
+		}
 	}).wait();
 }
 
