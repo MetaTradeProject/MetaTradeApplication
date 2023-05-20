@@ -91,7 +91,7 @@ pplx::task<std::shared_ptr<ItemInfo>> MetaTradePublishApi::getItemInfo(const cha
 pplx::task<web::http::http_response> MetaTradePublishApi::submitFakeTrade(const char* store_address, const char* receiver_address, const char* item_id, long long amount){
     web::http::http_request request;
     request.set_method(utility::conversions::to_string_t("POST"));
-    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id)));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id).append("/simple-trade")));
     request.set_request_uri(builder.to_uri());
     web::json::value simpleRequest;
     simpleRequest[L"receiverAddress"] = web::json::value::string(utility::conversions::to_string_t(receiver_address));
@@ -99,4 +99,59 @@ pplx::task<web::http::http_response> MetaTradePublishApi::submitFakeTrade(const 
     request.set_body(simpleRequest);
 
     return this->_client.request(request);
+}
+
+pplx::task<std::string> MetaTradePublishApi::submitCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount){
+    web::http::http_request request;
+    request.set_method(utility::conversions::to_string_t("POST"));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id).append("/cron-trade")));
+    request.set_request_uri(builder.to_uri());
+    web::json::value cronRequest;
+    cronRequest[L"cron"] = web::json::value::string(utility::conversions::to_string_t(cron));
+    cronRequest[L"receiverAddress"] = web::json::value::string(utility::conversions::to_string_t(receiver_address));
+    cronRequest[L"amount"] = web::json::value::number(amount);
+    request.set_body(cronRequest);
+
+    return this->_client.request(request)
+    .then([this](web::http::http_response response) {
+        web::json::value key;
+        if (response.status_code() == web::http::status_codes::OK) {
+            response.headers().set_content_type(utility::conversions::to_string_t("application/json"));
+            key = response.extract_json().get();
+
+            return utility::conversions::to_utf8string(key.at(utility::conversions::to_string_t("key")).as_string().c_str());
+        }
+        else {
+            return std::string("");
+        }
+    });
+}
+
+pplx::task<web::http::status_code> MetaTradePublishApi::deleteCronTrade(const char* store_address, const char* item_id, const char* key){
+    web::http::http_request request;
+    request.set_method(utility::conversions::to_string_t("DELETE"));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id).append("/cron-trade/").append(key)));
+    request.set_request_uri(builder.to_uri());
+
+    return this->_client.request(request)
+    .then([this](web::http::http_response response) {
+        return response.status_code();
+    });
+}
+
+pplx::task<web::http::status_code> MetaTradePublishApi::putCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount, const char* key){
+    web::http::http_request request;
+    request.set_method(utility::conversions::to_string_t("PUT"));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id).append("/cron-trade/").append(key)));
+    request.set_request_uri(builder.to_uri());
+    web::json::value cronRequest;
+    cronRequest[L"cron"] = web::json::value::string(utility::conversions::to_string_t(cron));
+    cronRequest[L"receiverAddress"] = web::json::value::string(utility::conversions::to_string_t(receiver_address));
+    cronRequest[L"amount"] = web::json::value::number(amount);
+    request.set_body(cronRequest);
+
+    return this->_client.request(request)
+    .then([this](web::http::http_response response) {
+        return response.status_code();
+    });
 }

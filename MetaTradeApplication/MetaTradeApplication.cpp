@@ -82,8 +82,8 @@ void MetaTradeApplication::QueryBills(const char* address, metatradenode::Bill**
 void MetaTradeApplication::QueryStoreInfoList(StoreInfo** store_list, uint64_t* sz){
 	_api->getStoreInfoList()
 	.then([&](std::vector<std::shared_ptr<StoreInfo>> infos){
-		sz = infos.size();
-		store_list = new StoreInfo* [sz];
+		*sz = infos.size();
+		store_list = new StoreInfo* [*sz];
 		uint64_t idx = 0;
 		for(auto& info: infos){
 			store_list[idx] = new StoreInfo();
@@ -106,12 +106,12 @@ void MetaTradeApplication::QueryStoreInfo(StoreInfo* store_info, const char* add
 void MetaTradeApplication::QueryItemInfoList(ItemInfo** item_list, uint64_t* sz, const char* address){
 	_api->getItemInfoList(address)
 	.then([&](std::vector<std::shared_ptr<ItemInfo>> infos){
-		sz = infos.size();
-		item_list = new ItemInfo* [sz];
+		*sz = infos.size();
+		item_list = new ItemInfo* [*sz];
 		uint64_t idx = 0;
 		for(auto& info: infos){
 			item_list[idx] = new ItemInfo();
-			strcpy_s(iitem_list[idx]->id, 10, info->id);
+			strcpy_s(item_list[idx]->id, 10, info->id);
 			item_list[idx]->amount = info->amount;
 			strcpy_s(item_list[idx]->store_address, 35, info->store_address);
 			strcpy_s(item_list[idx++]->description, 64, info->description);
@@ -134,11 +134,41 @@ void MetaTradeApplication::SubmitTrade(const char* receiver, const char* item_id
 }
 
 bool MetaTradeApplication::SubmitFakeTrade(const char* store_address, const char* receiver_address, const char* item_id, long long amount){
-	bool res = true;
+	bool res = false;
 	this->_api->submitFakeTrade(store_address, receiver_address, item_id, amount)
 	.then([&](web::http::http_response response) {
-		if (response.status_code() == web::http::status_codes::NotFound) {
-			res = false;
+		if (response.status_code() == web::http::status_codes::OK) {
+			res = true;
+		}
+	}).wait();
+	return res;
+}
+
+void MetaTradeApplication::SubmitCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount, char* key){
+	this->_api->submitFakeTrade(store_address, receiver_address, item_id, amount)
+	.then([&](std::string key_str) {
+		key = new char[key_str.size() + 1];
+		strcpy_s(key, key_str.size() + 1, key_str.c_str());
+	}).wait();
+}
+
+bool MetaTradeApplication::DeleteCronTrade(const char* store_address, const char* item_id, const char* key){
+	bool res = false;
+	this->_api->deleteCronTrade(store_address, item_id, key)
+	.then([&](web::http::http_response response) {
+		if (response.status_code() == web::http::status_codes::OK) {
+			res = true;
+		}
+	}).wait();
+	return res;
+}
+
+bool MetaTradeApplication::PutCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount, const char* key){
+	bool res = false;
+	this->_api->putCronTrade(cron, store_address, receiver_address, item_id, amount, key)
+	.then([&](web::http::http_response response) {
+		if (response.status_code() == web::http::status_codes::OK) {
+			res = true;
 		}
 	}).wait();
 	return res;
