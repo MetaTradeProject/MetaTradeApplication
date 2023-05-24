@@ -6,27 +6,23 @@ int main() {
 	if (!application.ReadConfig()) {
 		application.CreateConfigByRandom();
 	}
-	application.Init();
-	application.Run();
-	/*MetaTradePublishApi myapi(U("http://127.0.0.1:7286/"));
+	application.Init(false);
+	std::string address = application.Address();
+	application.Run(false);
+	Sleep(1000);
+	auto a = application.QueryAmount(address.c_str(), "0");
+	std::cout << "cash: " << a << std::endl;
 
-	myapi.getStoreInfoList()
-	.then([](std::vector<std::shared_ptr<StoreInfo>> res) {
-		for (auto& info : res) {
-			std::cout << info->id << info->address << info->description << std::endl;
-		}
-	}).wait();
+	StoreInfo* info;
+	uint64_t sz;
+	application.QueryStoreInfoList(&info, &sz);
 
-	myapi.getStoreInfo("123456")
-	.then([](std::shared_ptr<StoreInfo> pt) {
-		std::cout << pt->id << std::endl;
-	}).wait();
+	std::cout << sz << std::endl;
 
-	myapi.getItemInfoList("123456")
-	.then([](std::vector<std::shared_ptr<ItemInfo>> res) {
-		for (auto& info : res) {
-			std::cout << info->id << info->amount << info->description << std::endl;
-		}
-	}).wait();*/
+	//bool res = application.SubmitFakeTrade("1DLxqyvwEaEiuqbex97C5UVD93DTeWaXwU", address.c_str(), "1", 1000);
+	//std::cout << res << std::endl;
+	while (true) {
+
+	}
 	return 0;
 }

@@ -15,7 +15,7 @@ namespace metatradenode {
 
 	};
 
-	struct __declspec(dllexport) Bill {
+	struct Bill {
 		char sender[35];
 		char receiver[35];
 		char id[10];

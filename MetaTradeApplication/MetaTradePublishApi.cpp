@@ -69,7 +69,7 @@ pplx::task<std::vector<std::shared_ptr<ItemInfo>>> MetaTradePublishApi::getItemI
 pplx::task<std::shared_ptr<ItemInfo>> MetaTradePublishApi::getItemInfo(const char* address, const char* item_id) {
     web::http::http_request request;
     request.set_method(utility::conversions::to_string_t("GET"));
-    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(address).append("/item/").append(item_id)));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/meta-trade/store/").append(address).append("/item/").append(item_id)));
     request.set_request_uri(builder.to_uri());
 
     return this->_client.request(request)
@@ -91,7 +91,7 @@ pplx::task<std::shared_ptr<ItemInfo>> MetaTradePublishApi::getItemInfo(const cha
 pplx::task<web::http::http_response> MetaTradePublishApi::submitFakeTrade(const char* store_address, const char* receiver_address, const char* item_id, long long amount){
     web::http::http_request request;
     request.set_method(utility::conversions::to_string_t("POST"));
-    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id).append("/simple-trade")));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/meta-trade/store/").append(store_address).append("/item/").append(item_id).append("/simple-trade")));
     request.set_request_uri(builder.to_uri());
     web::json::value simpleRequest;
     simpleRequest[L"receiverAddress"] = web::json::value::string(utility::conversions::to_string_t(receiver_address));
@@ -104,7 +104,7 @@ pplx::task<web::http::http_response> MetaTradePublishApi::submitFakeTrade(const 
 pplx::task<web::http::http_response> MetaTradePublishApi::submitCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount){
     web::http::http_request request;
     request.set_method(utility::conversions::to_string_t("POST"));
-    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id).append("/cron-trade")));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/meta-trade/store/").append(store_address).append("/item/").append(item_id).append("/cron-trade")));
     request.set_request_uri(builder.to_uri());
     web::json::value cronRequest;
     cronRequest[L"cron"] = web::json::value::string(utility::conversions::to_string_t(cron));
@@ -118,7 +118,7 @@ pplx::task<web::http::http_response> MetaTradePublishApi::submitCronTrade(const 
 pplx::task<web::http::http_response> MetaTradePublishApi::deleteCronTrade(const char* store_address, const char* item_id, const char* key){
     web::http::http_request request;
     request.set_method(utility::conversions::to_string_t("DELETE"));
-    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id).append("/cron-trade/").append(key)));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/meta-trade/store/").append(store_address).append("/item/").append(item_id).append("/cron-trade/").append(key)));
     request.set_request_uri(builder.to_uri());
 
     return this->_client.request(request);
@@ -127,7 +127,7 @@ pplx::task<web::http::http_response> MetaTradePublishApi::deleteCronTrade(const 
 pplx::task<web::http::http_response> MetaTradePublishApi::putCronTrade(const char* cron, const char* store_address, const char* receiver_address, const char* item_id, long long amount, const char* key){
     web::http::http_request request;
     request.set_method(utility::conversions::to_string_t("PUT"));
-    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/store/").append(store_address).append("/item/").append(item_id).append("/cron-trade/").append(key)));
+    web::http::uri_builder builder(utility::conversions::to_string_t(std::string("/meta-trade/store/").append(store_address).append("/item/").append(item_id).append("/cron-trade/").append(key)));
     request.set_request_uri(builder.to_uri());
     web::json::value cronRequest;
     cronRequest[L"cron"] = web::json::value::string(utility::conversions::to_string_t(cron));

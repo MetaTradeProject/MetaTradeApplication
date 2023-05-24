@@ -34,6 +34,12 @@ public:
 	void Init(bool enableMining = true);
 
 	/// <summary>
+	/// 获取节点地址，需要在调用Init后使用
+	/// </summary>
+	/// <returns>节点地址</returns>
+	const char* Address();
+
+	/// <summary>
 	/// 重新启动Node服务，即同步区块Sync消息
 	/// </summary>
 	void ReloadNode();

@@ -1,7 +1,7 @@
 #include "MetaTradeApplication.h"
 
 constexpr auto pk_path = "./metatrade.pky";
-constexpr auto api_path = U("http://127.0.0.1:7286/");
+constexpr auto api_path = U("https://47.102.200.110/");
 unsigned char magic_numbers[32]{
 	0xd3, 0xef, 0xdc, 0x3c, 0x01, 0xa2, 0x5d, 0xc2,
 	0xb3, 0x89, 0x73, 0x50, 0xd4, 0x6d, 0xee, 0x69,
@@ -59,6 +59,10 @@ void MetaTradeApplication::Init(bool enableMining) {
 	this->_api = std::make_unique<MetaTradePublishApi>(api_path);
 }
 
+const char* MetaTradeApplication::Address(){
+	return this->wallet_address.c_str();
+}
+
 void MetaTradeApplication::ReloadNode(){
 	this->_node->reload();
 }
@@ -83,13 +87,13 @@ void MetaTradeApplication::QueryStoreInfoList(StoreInfo** store_list, uint64_t* 
 	_api->getStoreInfoList()
 	.then([&](std::vector<std::shared_ptr<StoreInfo>> infos){
 		*sz = infos.size();
-		store_list = new StoreInfo* [*sz];
+		*store_list = new StoreInfo [*sz];
 		uint64_t idx = 0;
 		for(auto& info: infos){
 			store_list[idx] = new StoreInfo();
-			strcpy_s(store_list[idx]->id, 10, info->id);
-			strcpy_s(store_list[idx]->address, 35, info->address);
-			strcpy_s(store_list[idx++]->description, 64, info->description);
+			strcpy_s((*store_list)[idx].id, 10, info->id);
+			strcpy_s((*store_list)[idx].address, 35, info->address);
+			strcpy_s((*store_list)[idx++].description, 64, info->description);
 		}
 	}).wait();
 }
@@ -107,14 +111,13 @@ void MetaTradeApplication::QueryItemInfoList(ItemInfo** item_list, uint64_t* sz,
 	_api->getItemInfoList(address)
 	.then([&](std::vector<std::shared_ptr<ItemInfo>> infos){
 		*sz = infos.size();
-		item_list = new ItemInfo* [*sz];
+		*item_list = new ItemInfo [*sz];
 		uint64_t idx = 0;
 		for(auto& info: infos){
-			item_list[idx] = new ItemInfo();
-			strcpy_s(item_list[idx]->id, 10, info->id);
-			item_list[idx]->amount = info->amount;
-			strcpy_s(item_list[idx]->store_address, 35, info->store_address);
-			strcpy_s(item_list[idx++]->description, 64, info->description);
+			strcpy_s((*item_list)[idx].id, 10, info->id);
+			(*item_list)[idx].amount = info->amount;
+			strcpy_s((*item_list)[idx].store_address, 35, info->store_address);
+			strcpy_s((*item_list)[idx++].description, 64, info->description);
 		}
 	}).wait();
 }
