@@ -75,6 +75,14 @@ public:
 	void QueryBills(const char* address, metatradenode::Bill** bills, uint64_t* sz);
 
 	/// <summary>
+	/// 查询当前在途账单，仅供参考，不代表最终上链账单
+	/// </summary>
+	/// <param name='address'>指定钱包地址</param>
+	/// <param name='bills'>Output - 查询结果</param>
+	/// <param name='sz'>Output - 查询结果条数</param>
+	void QueryTransitBills(const char* address, metatradenode::Bill** bills, uint64_t* sz);
+
+	/// <summary>
 	/// 查询所有商店信息
 	/// </summary>
 	/// <param name='store_list'>Output - 查询结果</param>
