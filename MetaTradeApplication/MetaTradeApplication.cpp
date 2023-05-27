@@ -94,7 +94,6 @@ void MetaTradeApplication::QueryStoreInfoList(StoreInfo** store_list, uint64_t* 
 		*store_list = new StoreInfo [*sz];
 		uint64_t idx = 0;
 		for(auto& info: infos){
-			store_list[idx] = new StoreInfo();
 			strcpy_s((*store_list)[idx].id, 10, info->id);
 			strcpy_s((*store_list)[idx].address, 35, info->address);
 			strcpy_s((*store_list)[idx++].description, 64, info->description);
@@ -220,11 +219,6 @@ void MetaTradeApplication::CreateConfigByStr(const char* pky){
 
 void MetaTradeApplication::CreateConfigByRandom() {
 	std::ofstream os(pk_path);
-	if (os.good()) {
-		std::cerr << "pky existes...\n";
-		return;
-	}
-
 	//Generate new private key and write file;
 	unsigned char pky[32]{ 0 };
 
