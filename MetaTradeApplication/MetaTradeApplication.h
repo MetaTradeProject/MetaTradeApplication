@@ -7,7 +7,7 @@
 /// <summary>
 /// MetaTrade服务的总入口
 /// </summary>
-class MetaTradeApplication
+class META_APP_PUBLIC MetaTradeApplication
 {
 private:
 	std::string private_key{};

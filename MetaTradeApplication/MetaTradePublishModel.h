@@ -1,10 +1,21 @@
 #pragma once
 #include <string>
 
+#if !defined(__WINDOWS__) && (defined(WIN32) || defined(WIN64) || defined(_MSC_VER) || defined(_WIN32))
+#define __WINDOWS__
+#endif
+
+#ifdef __WINDOWS__
+#define META_APP_PUBLIC   __declspec(dllexport)
+#else
+#define META_APP_PUBLIC 
+#endif
+
+
 /// <summary>
 /// 物品属性信息
 /// </summary>
-struct ItemInfo{
+struct META_APP_PUBLIC ItemInfo{
 
     /// <summary>
     /// 该物品的id，现阶段均为数字，Coin默认为0
@@ -30,7 +41,7 @@ struct ItemInfo{
 /// <summary>
 /// 商店属性信息
 /// </summary>
-struct StoreInfo{
+struct META_APP_PUBLIC StoreInfo{
 
     /// <summary>
     /// 商店地址
