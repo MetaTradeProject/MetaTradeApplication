@@ -190,10 +190,6 @@ bool MetaTradeApplication::PutCronTrade(const char* cron, const char* store_addr
 
 void MetaTradeApplication::CreateConfigByStr(const char* pky){
 	std::ofstream os(pk_path);
-	if (os.good()) {
-		std::cerr << "pky existes...\n";
-		return;
-	}
 
 	unsigned char buffer[32]{ 0 };
 
