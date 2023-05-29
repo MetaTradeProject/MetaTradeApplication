@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MetaTradeApplication", "MetaTradeApplication\MetaTradeApplication.vcxproj", "{0CEC2FA3-2FED-4A6A-9E99-B2A4D8A4FA88}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libMetaTrade", "libMetaTrade\libMetaTrade.vcxproj", "{73FC4DD3-B04F-478E-8C17-87996D5BF664}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{0CEC2FA3-2FED-4A6A-9E99-B2A4D8A4FA88}.Release|x64.Build.0 = Release|x64
 		{0CEC2FA3-2FED-4A6A-9E99-B2A4D8A4FA88}.Release|x86.ActiveCfg = Release|Win32
 		{0CEC2FA3-2FED-4A6A-9E99-B2A4D8A4FA88}.Release|x86.Build.0 = Release|Win32
+		{73FC4DD3-B04F-478E-8C17-87996D5BF664}.Debug|x64.ActiveCfg = Debug|x64
+		{73FC4DD3-B04F-478E-8C17-87996D5BF664}.Debug|x64.Build.0 = Debug|x64
+		{73FC4DD3-B04F-478E-8C17-87996D5BF664}.Debug|x86.ActiveCfg = Debug|Win32
+		{73FC4DD3-B04F-478E-8C17-87996D5BF664}.Debug|x86.Build.0 = Debug|Win32
+		{73FC4DD3-B04F-478E-8C17-87996D5BF664}.Release|x64.ActiveCfg = Release|x64
+		{73FC4DD3-B04F-478E-8C17-87996D5BF664}.Release|x64.Build.0 = Release|x64
+		{73FC4DD3-B04F-478E-8C17-87996D5BF664}.Release|x86.ActiveCfg = Release|Win32
+		{73FC4DD3-B04F-478E-8C17-87996D5BF664}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
