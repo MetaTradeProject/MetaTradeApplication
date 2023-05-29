@@ -31,7 +31,8 @@ public:
 	/// 初始化服务
 	/// </summary>
 	/// <param name='enableMining'>是否启动Mining服务</param>
-	void Init(bool enableMining = true);
+	/// <param name='force'>是否强制清理本地缓存</param>
+	void Init(bool enableMining = true, bool force = false);
 
 	/// <summary>
 	/// 获取节点地址，需要在调用Init后使用
