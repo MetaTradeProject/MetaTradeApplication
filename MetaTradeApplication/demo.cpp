@@ -43,8 +43,5 @@ int main() {
 
 	//bool res = application.SubmitFakeTrade("1DLxqyvwEaEiuqbex97C5UVD93DTeWaXwU", address.c_str(), "1", 1000);
 	//std::cout << res << std::endl;
-	while (true) {
-
-	}
 	return 0;
 }
