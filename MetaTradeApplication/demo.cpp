@@ -1,6 +1,15 @@
 #include "MetaTradePublishApi.h"
 #include "MetaTradeApplication.h"
 
+class Test : public metatradenode::MiningPublisher {
+	void PublishStart(int proveLevel) {
+		std::cout << proveLevel << std::endl;
+	};
+	void PublishFinished(int your_proof) {
+		std::cout << your_proof << std::endl;
+	};
+};
+
 int main() {
 	MetaTradeApplication application;
 	if (!application.ReadConfig()) {
@@ -10,7 +19,7 @@ int main() {
 		std::cerr << "error\n";
 		return 0;
 	}
-	application.Init(false);
+	application.Init(true, true, new Test());
 	std::string address = application.Address();
 	application.Run(false);
 	Sleep(1000);

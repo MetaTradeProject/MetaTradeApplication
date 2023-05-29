@@ -36,7 +36,7 @@ bool MetaTradeApplication::ReadConfig() {
 	}
 }
 
-void MetaTradeApplication::Init(bool enableMining, bool force) {
+void MetaTradeApplication::Init(bool force, bool enableMining, metatradenode::MiningPublisher* publisher) {
 	if (this->private_key.size() != 64) {
 		std::cerr << "Private Key not set...\n";
 		return;
@@ -52,8 +52,10 @@ void MetaTradeApplication::Init(bool enableMining, bool force) {
 	strcpy_s(_cfg.prikey, 65, this->private_key.c_str());
 	strcpy_s(_cfg.pubkey, 67, this->public_key.c_str());
 	_cfg.mining = enableMining;
+	_cfg.force = force;
+	_cfg.publisher = publisher;
 	this->_node = std::make_unique<metatradenode::MetaTradeNode>(_cfg);
-	this->_node->init(force);
+	this->_node->init();
 
 	//api
 	this->_api = std::make_unique<MetaTradePublishApi>(api_path);
