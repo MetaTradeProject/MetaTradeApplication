@@ -14,13 +14,14 @@ private:
 	std::string public_key{};
 	std::string wallet_address{};
 	metatradenode::nodeconfig _cfg{};
-	std::unique_ptr<metatradenode::MetaTradeNode> _node;
-	std::unique_ptr<MetaTradePublishApi> _api{};
+	metatradenode::MetaTradeNode* _node{nullptr};
+	MetaTradePublishApi* _api{nullptr};
 	static unsigned char hex2byte(char c);
 public:
 	MetaTradeApplication() = default;
 	MetaTradeApplication& operator=(const MetaTradeApplication&) = delete;
 	MetaTradeApplication(const MetaTradeApplication&) = delete;
+	~MetaTradeApplication(); 
 
 	/// <summary>
 	/// 从指定文件读取私钥

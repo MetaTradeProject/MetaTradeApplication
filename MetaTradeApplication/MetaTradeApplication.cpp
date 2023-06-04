@@ -54,11 +54,20 @@ void MetaTradeApplication::Init(bool force, bool enableMining, metatradenode::Mi
 	_cfg.mining = enableMining;
 	_cfg.force = force;
 	_cfg.publisher = publisher;
-	this->_node = std::make_unique<metatradenode::MetaTradeNode>(_cfg);
+	this->_node = new metatradenode::MetaTradeNode(_cfg);
 	this->_node->init();
 
 	//api
-	this->_api = std::make_unique<MetaTradePublishApi>(api_path);
+	this->_api = new MetaTradePublishApi(api_path);
+}
+
+MetaTradeApplication::~MetaTradeApplication() {
+	if (this->_node != nullptr) {
+		delete this->_node;
+	}
+	if (this->_api != nullptr) {
+		delete this->_api;
+	}
 }
 
 const char* MetaTradeApplication::Address(){
